@@ -6,7 +6,10 @@ export const getPosts = (req, res) => {
 
   Connection.query(sql, (err, result) => {
     if (err) {
-      return res.status(404).json({ message: err });
+      return res.status(400).json({ message: err });
+    }
+    if (result.length < 1) {
+      return res.status(404).json({ message: "NOT FOUND" });
     }
     res.status(200).json({
       payload: result,
@@ -17,11 +20,11 @@ export const getPosts = (req, res) => {
 
 export const getPostById = (req, res) => {
   const id = req.params.id;
-  const sql = `SELECT * FROM posts WHERE id = '${req.params.id}'`;
+  const sql = `SELECT * FROM posts WHERE id = '${id}'`;
 
   Connection.query(sql, (err, result) => {
     if (err) {
-      return res.status(404).json({ message: err });
+      return res.status(400).json({ message: err });
     }
     if (result.length < 1) {
       return res.status(404).json({ message: "NOT FOUND" });
@@ -43,7 +46,7 @@ export const addPost = (req, res) => {
   const sql = `INSERT INTO posts (id, title, body, image, user_id, status, categories) VALUES ('${uuid}', '${data.title}', '${data.body}', '${image}','${data.user_id}', '${data.status}', '${data.categories}')`;
   Connection.query(sql, (err, result) => {
     if (err) {
-      return res.status(404).json({ message: err });
+      return res.status(400).json({ message: err });
     }
     res.status(200).json({
       payload: result,
@@ -59,7 +62,7 @@ export const editPost = (req, res) => {
 
   Connection.query(sql, data, (err, result) => {
     if (err) {
-      return res.status(404).json({ message: err });
+      return res.status(400).json({ message: err });
     }
     if (result.affectedRows < 1) {
       return res.status(404).json({ message: "NOT FOUND" });
@@ -77,7 +80,7 @@ export const deletePost = (req, res) => {
   const sql = `DELETE FROM posts WHERE id = '${id}'`;
   Connection.query(sql, (err, result) => {
     if (err) {
-      return res.status(404).json({ message: err });
+      return res.status(400).json({ message: err });
     }
     if (result.affectedRows < 1) {
       return res.status(404).json({ message: "NOT FOUND" });
