@@ -130,5 +130,8 @@ dist
 .pnp.*
 
 #other files
+public/images/.jpg
+public/images/.png
+public/images/.jpeg
 model.png
 sql.txt
