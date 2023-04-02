@@ -1,5 +1,4 @@
 import { Router } from "express";
-import multer from "multer";
 import {
   getPosts,
   getPostById,
@@ -7,7 +6,6 @@ import {
   editPost,
   deletePost,
 } from "../controller/posts.controller.js";
-import upload from "../controller/uploader.controller.js";
 
 const router = Router();
 

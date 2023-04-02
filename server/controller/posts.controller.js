@@ -38,12 +38,13 @@ export const getPostById = (req, res) => {
 
 export const addPost = (req, res) => {
   const data = { ...req.body };
-  const image = req.file.path;
+  let finalImageURL =
+    req.protocol + "://" + req.get("host") + "/images/" + req.file.filename;
   if (!req.file || !req.file.path) {
     return res.sendStatus(400);
   }
   const uuid = crypto.randomUUID();
-  const sql = `INSERT INTO posts (id, title, body, image, user_id, status, categories) VALUES ('${uuid}', '${data.title}', '${data.body}', '${image}','${data.user_id}', '${data.status}', '${data.categories}')`;
+  const sql = `INSERT INTO posts (id, title, body, image, user_id, status, categories) VALUES ('${uuid}', '${data.title}', '${data.body}', '${finalImageURL}','${data.user_id}', '${data.status}', '${data.categories}')`;
   Connection.query(sql, (err, result) => {
     if (err) {
       return res.status(400).json({ message: err });
